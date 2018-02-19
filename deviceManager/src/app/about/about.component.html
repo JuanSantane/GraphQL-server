@@ -1,0 +1,8 @@
+<mat-form-field class="example-full-width">
+    <textarea matInput placeholder="insert number" [ngModel]='amount$ | async'
+    (ngModelChange)="onAmountChange($event)" >
+  </textarea>
+  </mat-form-field>
+  <p *ngFor="let currency of (currencyRates$ | async)">
+      {{currency.code + ' ' + currency.value * (amount$ | async)}}
+  </p>

@@ -3,6 +3,7 @@ export default  `
 type User{
     _id: ID!
     username: String!
+    email: String
     password: String!
     thumbnail: String
 }
@@ -15,9 +16,4 @@ type Query{
 type Mutation{
     createUser(username: String!, password: String!, fullname: String!, email: String!): Boolean!
 }
-
-
-
-
-
 `;

@@ -13,16 +13,12 @@ import { fileLoader, mergeTypes, mergeResolvers } from 'merge-graphql-schemas';
 const typeDefs = mergeTypes(fileLoader(path.join(__dirname, './graphql/schemas')));
 const resolvers = mergeResolvers(fileLoader(path.join(__dirname, './graphql/resolvers')));
 
-
-
-
+const PORT = 3000;
 const myGraphQLSchema = makeExecutableSchema({
     typeDefs,
     resolvers,
   });
-const PORT = 3000;
 
-// bodyParser is needed just for POST.
 App.use('/graphql', bodyParser.json(), graphqlExpress({ 
     schema: myGraphQLSchema,
     context: {

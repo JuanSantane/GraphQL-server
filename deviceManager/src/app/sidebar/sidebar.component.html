@@ -1,0 +1,10 @@
+<div style="background: grey">
+    <div>
+      <p *ngFor="let section of sections">
+        <a [routerLink]="section.route">
+          <i class="material-icons">{{section.icon}} </i>
+          <span *ngIf="open">{{section.name}} </span>
+        </a>
+      </p>
+    </div>
+  </div>
