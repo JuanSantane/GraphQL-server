@@ -13,6 +13,12 @@ export interface State {
 }
 
 
-export const getAmountState = (state: State) => state.amount;
+export const getAmountState = (state: State) => {
+  console.log('getAmountState ==> ', state.amount);
+  return state.amount;
+};
 
-export const getCurrnecyRates = (state: State) => state.currencies;
+export const getCurrnecyRates = (state: State) => {
+  console.log('getCurrnecyRates ==> ', state.currencies);
+  return state.currencies;
+};

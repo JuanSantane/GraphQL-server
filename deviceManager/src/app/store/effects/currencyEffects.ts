@@ -1,5 +1,5 @@
 import { CurrenciesUpdatedAction } from './../actions/currency';
-import { CurrencyService } from './../services/currency.service';
+import { CurrencyService } from '../services/currency.service';
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
@@ -14,8 +14,6 @@ import 'rxjs/add/operator/switchMap';
 
 @Injectable()
 export class CurrencyEffects {
-
-
     constructor(
         private currencyService: CurrencyService,
         private actions$: Actions

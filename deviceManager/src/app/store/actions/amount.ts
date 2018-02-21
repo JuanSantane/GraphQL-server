@@ -5,5 +5,7 @@ export const AMOUNTCHANGE = '[Amount] Change';
 export class AmountChangeAction implements Action {
   type = AMOUNTCHANGE;
 
-  constructor(public payload: number) {}
+  constructor(public payload: number) {
+    console.log( 'ACTION => ', this.type, payload);
+  }
 }

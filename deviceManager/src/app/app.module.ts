@@ -11,9 +11,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
-import { reducers } from './reducers/index';
-import { CurrencyService } from './services/currency.service';
-import { CurrencyEffects } from './effects/currencyEffects';
+import { reducers } from './store/reducers/index';
+import { CurrencyService } from './store/services/currency.service';
+import { CurrencyEffects } from './store/effects/currencyEffects';
+import { EffectsModule } from '@ngrx/effects';
+import { UserService } from './store/services/user.service';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -59,9 +61,10 @@ import { HomeComponent } from './home/home.component';
     MaterialModule,
     FlexLayoutModule,
     FormsModule,
-    StoreModule.forRoot(reducers)
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot([CurrencyEffects])
   ],
-  providers: [CurrencyService],
+  providers: [CurrencyService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

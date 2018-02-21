@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy,  OnInit } from '@angular/core';
-import { AmountChangeAction } from '../actions/amount';
+import { AmountChangeAction } from '../store/actions/amount';
 import { Store } from '@ngrx/store';
-import * as fromRoot from '../reducers';
-import { Currency } from '../models/currency';
-import { CurrenciesUpdateAction } from '../actions/currency';
+import * as fromRoot from '../store/reducers';
+import { Currency } from '../store/models/currency';
+import { CurrenciesUpdateAction } from '../store/actions/currency';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -30,7 +30,6 @@ export class AboutComponent implements OnInit {
 
   onAmountChange(amount: string) {
     const number = parseFloat(amount);
-    console.log(number);
     if (!isNaN(number)) {
       this.store.dispatch(new AmountChangeAction(number));
     }
