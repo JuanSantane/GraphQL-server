@@ -1,3 +1,20 @@
-<p>
-  signup works!
-</p>
+<div class="container" class="center">
+  <form [formGroup]="signinForm"  (ngSubmit)="onSubmit()" class="center">
+    <div formGroupName="userData">
+      <mat-form-field>
+        <input id="signin_email" matInput type="text"
+        placeholder="username or nickname" formControlName="username">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input id="signin_pass" matInput type="password"
+        placeholder="password" formControlName="password">
+      </mat-form-field>
+    </div>
+    <button id="sign_in_btn" mat-raised-button color="primary" [disabled]="!signinForm.valid"  type="submit">SignIn</button>
+    <button id="cancel_btn" mat-raised-button color="primary" type="button" (click)="goBack()" >Cancel</button>
+  </form>
+  <div *ngIf="!logged && submited" >
+    <h1>{{messageToUser}}</h1>
+  </div>
+</div>

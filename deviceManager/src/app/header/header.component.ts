@@ -1,3 +1,4 @@
+import { User } from './../store/models/user';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
+  userLogged: User;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  logout(){
+
   }
 
 }

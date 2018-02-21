@@ -6,6 +6,9 @@ import { Injectable } from '@angular/core';
 import gql from 'graphql-tag';
 import { Apollo } from 'apollo-angular';
 import { map } from 'async';
+import { User } from '../models/user';
+// tslint:disable-next-line:import-blacklist
+import * as  RX from 'rxjs';
 
 @Injectable()
 export class UserService {
@@ -23,21 +26,21 @@ export class UserService {
   _queryType = 'query';
 
   constructor(private apollo: Apollo) {
-    console.log('######################################################');
-    this.getAllUsers().subscribe(result => {
-      console.log(result);
-    });
+    // this.getAllUsers().subscribe(result => {
+    //   console.log(result);
+    // });
   }
 
   getAllUsers(): Observable<any> {
-     return this.apollo
-      .watchQuery<any>({
+     return this.apollo.watchQuery<any>({
         query: this.gqlQuery
       }).valueChanges;
-      // .subscribe(response => {
-      //   const result = response.data[this.queryMethod];
-      //   console.log(result);
-      //   return result;
-      // });
+  }
+
+  signup() {
+    this.getAllUsers().subscribe(r => console.log(r.data['getAllUsers']));
+  }
+  getTimer() {
+    return RX.Observable.interval(1000);
   }
 }

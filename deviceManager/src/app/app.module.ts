@@ -16,6 +16,7 @@ import { CurrencyService } from './store/services/currency.service';
 import { CurrencyEffects } from './store/effects/currencyEffects';
 import { EffectsModule } from '@ngrx/effects';
 import { UserService } from './store/services/user.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -31,6 +32,7 @@ import { UsersComponent } from './settings/users/users.component';
 import { AboutComponent } from './about/about.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
+import { UserEffects } from './store/effects/userEffects';
 
 
 
@@ -62,7 +64,8 @@ import { HomeComponent } from './home/home.component';
     FlexLayoutModule,
     FormsModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([CurrencyEffects])
+    EffectsModule.forRoot([CurrencyEffects, UserEffects]),
+    ReactiveFormsModule
   ],
   providers: [CurrencyService, UserService],
   bootstrap: [AppComponent]

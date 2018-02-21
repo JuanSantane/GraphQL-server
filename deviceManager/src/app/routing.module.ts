@@ -1,3 +1,4 @@
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AboutComponent } from './about/about.component';
@@ -20,7 +21,7 @@ const appRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'home', component: HomeComponent },
   // { path: 'devices/:id', component: DeviceDetailComponent },
-  // { path: '**', component: PageNotFoundComponent }
+  { path: '**', component: PageNotFoundComponent }
   // { path: 'devices', component: DevicesComponent, children: [
   //   {path: ':name', component: DeviceDetailComponent }
   // ] },
