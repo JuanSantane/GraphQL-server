@@ -18,21 +18,38 @@ function getProjection(InfoFromQuery) {
 function getQueryMethod(InfoFromQuery){
     return InfoFromQuery.fieldName;
 }
-function getQueryParams(info){
-    return "";
+function getQueryParams(args, info){
+    if(JSON.stringify(args) ==  "{}" ){
+        console.log("No hay parametros en el query");
+        return "";
+    }else{
+        console.log("Si hay parametros en la query", args);
+        let params = '';
+        Object.keys(args).forEach(property => {
+            params = params + `${property}: ${args[property]}` 
+        });
+        console.log(params);
+        return `(${params})` ;
+    }
 }
-function buildQuery(info) {
-    return `query { ${getQueryMethod(info)}${getQueryParams(info)} { ${getProjection(info)} } }`
+function buildQuery(args, info) {
+    return {
+        id: uniqid(),
+        body: `query { ${getQueryMethod(info)}${getQueryParams(args, info)} 
+                { ${getProjection(info)} } }`,
+        reply:`users/`
+    }
 }
 
 export default{
     Query: {
         getAllUsers: (parent, args, context, info) => {
             const nn = `${args}`;
-            console.log("PARAMS ==> ", args);            
+            console.log(args);
+            console.log("TOKEN ==> ", context.token);
+            console.log(context.count);
             const query = {
-                id: uniqid(),
-                body: buildQuery(info)
+                body: buildQuery(args, info)
             }
             console.log(query);
             context.mqtt.publish(outboxTopics.getAllUserRqst, JSON.stringify(query));
@@ -41,7 +58,12 @@ export default{
                 subscription.unsubscribe();
             });
         },
-        getUser: (parent, args, context) => context.models.User.findOne(args)
+        getUser: (parent, args, context, info) => {
+            console.log(args)
+            const query = buildQuery(args, info);
+            // return context.models.User.findOne(args);
+            console.log(query);
+        }
     },
     Mutation: {
         createUser: async (parent, args, context) => {

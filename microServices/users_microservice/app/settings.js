@@ -16,5 +16,10 @@ module.exports = {
         getAllUserRqst : "getAllUserRqst"
       }
     }
+  },
+  mqttServer: {
+    port: 1883,
+    protocol: "mqtt",
+    host: "192.168.188.67"
   }
 };

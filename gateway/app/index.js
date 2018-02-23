@@ -20,15 +20,16 @@ const resolvers = mergeResolvers(fileLoader(path.join(__dirname, "./graphql/reso
 const graphQLOptions = {
     schema: makeExecutableSchema({ typeDefs, resolvers }),
     context: {
-      mqtt: MQTT.mqttClient
-    }
+      mqtt: MQTT.mqttClient,
+      count: 0
+    },
+    
   };
 
 const ws = createServer(App);
 
-App.use((request, response, next) => {
-  // console.log("######### ==> ", request);
-    // Pass to next layer of middleware
+App.use((request, response, next) => { 
+  graphQLOptions.context.count++;
     next();
   });
 

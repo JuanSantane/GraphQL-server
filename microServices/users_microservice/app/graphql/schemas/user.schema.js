@@ -13,8 +13,8 @@ type Result {
 }
 
 type Query{
-    getAllUsers : [User]
-    getUser(_id: ID!): User
+    getAllUsers : [User]!
+    getUser(_id: ID!): User!
 }
 
 type Mutation{

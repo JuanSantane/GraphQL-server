@@ -14,8 +14,7 @@ const untrackedsubject = new Rx.Subject();
 const mqttClient = mqtt.connect(mqttOptions);
 mqttClient.on("connect", () => {
     console.log("GATEWAY CONECTADO A MQTT");
-    mqttClient.subscribe('#')
-    mqttClient.subscribe(settings.mqttClient.topics.queryTester);
+    mqttClient.subscribe(settings.mqttClient.topics.inbox.getAllUsersResp)
 });
 
 mqttClient.on('message', (topic, message) => {
