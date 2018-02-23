@@ -4,7 +4,7 @@
   "description": "GraphQL Node.js server",
   "main": "app/index.js",
   "scripts": {
-    "start": "nodemon app/index.js --exec babel-node"
+    "start": "nodemon index.js --exec babel-node"
   },
   "repository": {
     "type": "git",

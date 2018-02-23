@@ -13,7 +13,7 @@ type Result {
 }
 
 type Query{
-    getAllUsers : [User]!
+    getAllUsers : [User]
     getUser(_id: ID!): User!
 }
 
