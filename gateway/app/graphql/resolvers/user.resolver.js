@@ -1,12 +1,12 @@
 import bcrypt from 'bcrypt';
 import { withFilter, PubSub } from 'graphql-subscriptions';
-import { userGetAllsubject } from '../../mqttClient';
+import { userSubject } from '../../mqttClient';
 const uniqid = require('uniqid');
 const SOMETHING_CHANGED_TOPIC = 'something_changed';
 const pubsub = new PubSub();
 const settings = require('../../settings');
-const inboxTopics = settings.mqttClient.topics.inbox;
-const outboxTopics = settings.mqttClient.topics.outbox;
+
+
 
 function getProjection(InfoFromQuery) {
     let selectionSet = '';
@@ -37,23 +37,20 @@ function buildQuery(args, info) {
         id: uniqid(),
         body: `query { ${getQueryMethod(info)}${getQueryParams(args, info)} 
                 { ${getProjection(info)} } }`,
-        reply:`users/`
+        replyTo:`users/`
     }
 }
+
 
 export default{
     Query: {
         getAllUsers: (parent, args, context, info) => {
             const nn = `${args}`;
-            console.log(args);
-            console.log("TOKEN ==> ", context.token);
-            console.log(context.count);
             const query = {
                 body: buildQuery(args, info)
             }
-            console.log(query);
-            context.mqtt.publish(outboxTopics.getAllUserRqst, JSON.stringify(query));
-            const subscription =  userGetAllsubject.subscribe(res => {
+            context.mqtt.publish(settings.mqttClient.topics.queryRqsts, JSON.stringify(context.rqst));
+            const subscription =  userSubject.subscribe(res => {
                 console.log("respuesta del mqtt");
                 subscription.unsubscribe();
             });
@@ -63,6 +60,14 @@ export default{
             const query = buildQuery(args, info);
             // return context.models.User.findOne(args);
             console.log(query);
+        },
+        getInfo:(parent, args, context, info) => {
+            context.mqtt.publish(settings.mqttClient.topics.queryRqsts, JSON.stringify(context.rqst.query));
+            const subscription = userSubject.subscribe(resp => {
+                console.log("RESPUESTA DE MQTT");
+                return resp;
+            });
+                        
         }
     },
     Mutation: {

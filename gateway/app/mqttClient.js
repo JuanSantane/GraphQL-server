@@ -6,23 +6,22 @@ const mqttOptions = {
   protocol: "mqtt",
   host: "192.168.188.67"
 };
-const userGetAll = settings.mqttClient.topics.outbox.getAllUserRqst;
 
-const userGetAllsubject = new Rx.Subject();
+const userSubject = new Rx.Subject();
 const untrackedsubject = new Rx.Subject();
 
 const mqttClient = mqtt.connect(mqttOptions);
 mqttClient.on("connect", () => {
     console.log("GATEWAY CONECTADO A MQTT");
-    mqttClient.subscribe(settings.mqttClient.topics.inbox.getAllUsersResp)
+    mqttClient.subscribe(settings.mqttClient.topics.queryResp);
 });
 
 mqttClient.on('message', (topic, message) => {
   console.log(topic, message.toString());
   switch(topic){
-    case(userGetAll):
+    case(settings.mqttClient.topics.queryResp):
       console.log(message.toString());
-      userGetAllsubject.next(message.toString());
+      userSubject.next(message.toString());
       break;
     default:
       console.log("MESSAGE WITHOUT TRACKED TOPIC ==> ", message.toString())
@@ -44,4 +43,4 @@ mqttClient.on("error", () => {
   mqttClient.subscribe(settings.mqttClient.topics.queryTester);
 });
 
-module.exports = { mqttClient, userGetAllsubject, untrackedsubject }
+module.exports = { mqttClient, userSubject, untrackedsubject }

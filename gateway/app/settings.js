@@ -8,13 +8,8 @@ module.exports = {
     port: 1883,
     protocol: "mqtt",
     topics: {
-      queryTester: "testingQuery",
-      inbox: {
-        getAllUsersResp: "getAllUsersResp"
-      },
-      outbox: {
-        getAllUserRqst : "getAllUserRqst"
-      }
+      queryRqsts: "queryRqst",
+      queryResp: "queryResp"
     }
   }
 };

@@ -6,7 +6,10 @@ export const pubsub = new PubSub();
 export default{
     Query: {
         getAllUsers: (parent, args, context) => context.models.User.find(),
-        getUser: (parent, args, context) => context.models.User.findOne(args)
+        getUser: (parent, args, context) => context.models.User.findOne(args),
+        getInfo: (parent, args, context, info) => {
+            return "Hello this is a fake answer"
+        }
     },
     Mutation: {
         createUser: async (parent, args, context) => {

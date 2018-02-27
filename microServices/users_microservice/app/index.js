@@ -30,14 +30,14 @@ const resolvers = mergeResolvers(
   fileLoader(path.join(__dirname, "./graphql/resolvers"))
 );
 
-const graphQLOptions = {
-  schema: makeExecutableSchema({ typeDefs, resolvers }),
-  context: {
-    models: mongooseModels,
-    user: { _id: 1, username: "PipeSanta" },
-    token: "dfgtsdfgsd"
-  }
-};
+// const graphQLOptions = {
+//   schema: makeExecutableSchema({ typeDefs, resolvers }),
+//   context: {
+//     models: mongooseModels,
+//     user: { _id: 1, username: "PipeSanta" },
+//     token: "dfgtsdfgsd"
+//   }
+// };
 
 const client = new ApolloClient({
   ssr: true,
@@ -48,7 +48,8 @@ const client = new ApolloClient({
 MQTT.mqttClient.on("message", (topic, msg) => {
   const replyTo ="getAllUsersResp"
   console.log("NEW REQUEST TO THE MICROSERVICE: ", msg.toString());
-  const query = JSON.parse(msg.toString()).body;
+ // const query = JSON.parse(msg.toString());
+ const query = "query{ getAllUsers{ username } }"
   console.log("QUERY ==> ", query);
   const gqlQuery = gql`${query}`;   
   client.query({ query: gqlQuery})

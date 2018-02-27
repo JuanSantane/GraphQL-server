@@ -4,6 +4,7 @@ import { graphqlExpress, graphiqlExpress } from "apollo-server-express";
 import { makeExecutableSchema } from "graphql-tools";
 import { fileLoader, mergeTypes, mergeResolvers } from "merge-graphql-schemas";
 import path from "path";
+const util = require('util')
 
 // to create the subscription conection
 import { execute, subscribe } from 'graphql';
@@ -17,23 +18,23 @@ const settings = require('./settings');
 const typeDefs = mergeTypes(fileLoader(path.join(__dirname, "./graphql/schemas")));
 const resolvers = mergeResolvers(fileLoader(path.join(__dirname, "./graphql/resolvers")));
 
-const graphQLOptions = {
-    schema: makeExecutableSchema({ typeDefs, resolvers }),
-    context: {
-      mqtt: MQTT.mqttClient,
-      count: 0
-    },
-    
-  };
-
 const ws = createServer(App);
 
-App.use((request, response, next) => { 
-  graphQLOptions.context.count++;
-    next();
+App.use((request, response, next) => {  
+
+  next();
   });
 
-App.use("/graphql", bodyParser.json(), graphqlExpress(graphQLOptions));
+App.use("/graphql", bodyParser.json(), graphqlExpress(req => 
+    ({
+      schema: makeExecutableSchema({ typeDefs, resolvers }),
+      context: {
+        mqtt: MQTT.mqttClient,
+        rqst: req.body,
+        date: Date.now()
+      }
+    })
+  ));
 App.get("/graphiql", graphiqlExpress({ 
     endpointURL: "/graphql",
     subscriptionsEndpoint: `ws://localhost:${settings.wsPort}/subscriptions`
@@ -46,7 +47,7 @@ App.listen(settings.port, () => {
         new SubscriptionServer({
           execute,
           subscribe,
-          schema :  graphQLOptions.schema
+          schema :  makeExecutableSchema({ typeDefs, resolvers })
         }, {
           server: ws,
           path: '/subscriptions',

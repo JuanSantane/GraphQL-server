@@ -15,6 +15,7 @@ type Result {
 type Query{
     getAllUsers : [User]!
     getUser(_id: ID!): User!
+    getInfo: String
 }
 
 type Mutation{
